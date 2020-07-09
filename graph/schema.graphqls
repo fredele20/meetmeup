@@ -1,0 +1,74 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+scalar Time
+
+type AuthToken {
+    accessToken: String!
+    expiredAt: Time!
+}
+
+type AuthResponse {
+    authToken: AuthToken!
+    user: User!
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  meetups: [Meetup!]!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type Meetup {
+  id: ID!
+  name: String!
+  description: String!
+  user: User!
+}
+
+input NewMeetup {
+    name: String!
+    description: String!
+}
+
+input UpdateMeetup {
+    name: String
+    description: String
+}
+
+input RegisterInput {
+    username: String!
+    email: String!
+    password: String!
+    confirmPassword: String!
+    firstName: String!
+    lastName: String!
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+input MeetupFilter {
+    name: String
+}
+
+type Query {
+    meetups(filter: MeetupFilter, limit: Int = 10, offset: Int = 0): [Meetup!]!
+    user(id: ID!): User!
+}
+
+type Mutation {
+    register(input: RegisterInput!): AuthResponse!
+    login(input: LoginInput!): AuthResponse!
+    createMeetup(input: NewMeetup!): Meetup!
+    updateMeetup(id: ID!, input: UpdateMeetup!): Meetup!
+    deleteMeetup(id: ID!): Boolean!
+}
