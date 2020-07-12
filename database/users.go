@@ -17,7 +17,7 @@ func (u *UsersRepo) GetUserByField(field, value string) (*model.User, error) {
 }
 
 func (u *UsersRepo) GetUserById(id string) (*model.User, error) {
-	return u.GetUserByField("_id", id)
+	return u.GetUserByField("id", id)
 }
 
 func (u *UsersRepo) GetUserByEmail(email string) (*model.User, error) {

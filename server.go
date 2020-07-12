@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/go-chi/chi"
+	//"github.com/go-chi/chi"
+	"github.com/gorilla/mux"
 	customMiddleware "meetmeup/middleware"
 
 	//"github.com/go-pg/pg/v9"
@@ -31,7 +32,8 @@ func main() {
 		port = defaultPort
 	}
 
-	router := chi.NewRouter()
+	//router := chi.NewRouter()
+	muxRouter := mux.NewRouter()
 
 	//router.Use(cors.New(cors.Options{
 	//	AllowedOrigins:   []string{"http://localhost:8080"},
@@ -40,15 +42,17 @@ func main() {
 	//}).Handler)
 	//router.Use(middleware.RequestID)
 	//router.Use(middleware.Logger)
-	router.Use(customMiddleware.AuthMiddleware(database.UsersRepo{}))
+	muxRouter.Use(customMiddleware.AuthMiddleware(database.UsersRepo{}))
 
 	//srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
-	queryHandler := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	queryHandler := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
+		UserRepo: database.UsersRepo{},
+	}}))
 
-	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	router.Handle("/query", graph.DataLoaderMiddleware(DB, queryHandler))
+	muxRouter.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	muxRouter.Handle("/query", graph.DataLoaderMiddleware(DB, queryHandler))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Fatal(http.ListenAndServe(":"+port, muxRouter))
 }

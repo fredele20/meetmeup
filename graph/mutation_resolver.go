@@ -5,9 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math/rand"
 	"meetmeup/graph/generated"
 	"meetmeup/graph/model"
 	"meetmeup/middleware"
+	"strconv"
 	"time"
 )
 
@@ -32,6 +34,7 @@ func (m *mutationResolver) Register(ctx context.Context, input model.RegisterInp
 		return nil, errors.New("user with username already exists")
 	}
 	payload := &model.User{
+		ID:        strconv.Itoa(rand.Int()),
 		Username:  input.Username,
 		Email:     input.Email,
 		FirstName: input.FirstName,
