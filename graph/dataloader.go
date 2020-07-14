@@ -22,7 +22,7 @@ func DataLoaderMiddleware(db *mongo.Collection, next http.Handler) http.Handler 
 				fmt.Println("ids", ids)
 
 				// TODO: not sure of this line as i am using mongo instead of postgres
-				err := db.FindOne(context.TODO(), bson.D{{"_id", ids}}).Decode(&users)
+				err := db.FindOne(context.TODO(), bson.D{{"id", ids}}).Decode(&users)
 
 				if err != nil {
 					return nil, []error{err}

@@ -3,6 +3,7 @@ package main
 import (
 	//"github.com/go-chi/chi"
 	"github.com/gorilla/mux"
+	"meetmeup/domain"
 	customMiddleware "meetmeup/middleware"
 
 	//"github.com/go-pg/pg/v9"
@@ -46,8 +47,10 @@ func main() {
 
 	//srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
+	d := domain.NewDomain(database.UsersRepo{}, database.MeetupsRepo{})
+
 	queryHandler := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
-		UserRepo: database.UsersRepo{},
+		Domain: d,
 	}}))
 
 	muxRouter.Handle("/", playground.Handler("GraphQL playground", "/query"))

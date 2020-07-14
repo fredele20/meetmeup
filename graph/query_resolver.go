@@ -12,9 +12,9 @@ type queryResolver struct{ *Resolver }
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
-	return r.UserRepo.GetUserById(id)
+	return r.Domain.UserRepo.GetUserById(id)
 }
 
 func (r *queryResolver) Meetups(ctx context.Context, filter *model.MeetupFilter, limit *int, offset *int) ([]*model.Meetup, error) {
-	return r.MeetupRepo.GetMeetups(filter, limit, offset)
+	return r.Domain.MeetupRepo.GetMeetups(filter, limit, offset)
 }
