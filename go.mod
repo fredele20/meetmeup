@@ -8,7 +8,7 @@ require (
 	github.com/go-chi/chi v4.1.2+incompatible // indirect
 	github.com/go-pg/pg/v9 v9.1.6
 	github.com/golang-migrate/migrate v3.5.4+incompatible // indirect
-	github.com/gorilla/mux v1.7.4 // indirect
+	github.com/gorilla/mux v1.7.4
 	github.com/pkg/errors v0.8.1
 	github.com/rs/cors v1.7.0 // indirect
 	github.com/vektah/gqlparser/v2 v2.0.1

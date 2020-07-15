@@ -48,12 +48,12 @@ func (m *MeetupsRepo) CreateMeetup(meetup *model.Meetup) (*model.Meetup, error) 
 
 func (m *MeetupsRepo) GetByID(id string) (*model.Meetup, error) {
 	var meetup model.Meetup
-	_, err := MeetupsCollection.Find(context.TODO(), bson.M{"_id": id})
+	_, err := MeetupsCollection.Find(context.TODO(), bson.M{"id": id})
 	return &meetup, err
 }
 
 func (m *MeetupsRepo) Update(meetup *model.Meetup) (*model.Meetup, error) {
-	filter := bson.M{"_id": meetup.ID}
+	filter := bson.M{"id": meetup.ID}
 	update := bson.D{
 		{"$set", bson.D{
 			{"name", meetup.Name},
@@ -65,7 +65,7 @@ func (m *MeetupsRepo) Update(meetup *model.Meetup) (*model.Meetup, error) {
 }
 
 func (m *MeetupsRepo) Delete(meetup *model.Meetup) error {
-	filter := bson.M{"_id": meetup.ID}
+	filter := bson.M{"id": meetup.ID}
 	_, err := MeetupsCollection.DeleteOne(context.TODO(), filter)
 	return err
 }
